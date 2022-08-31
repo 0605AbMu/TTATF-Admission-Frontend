@@ -30,7 +30,7 @@ export default function Relations({
   activeStep,
   setActiveStep,
   id = undefined,
-  setAllFormData = () => {},
+  setParentRelationData = () => {},
 }) {
   const [isValid, setIsValid] = React.useState(true);
   const [completed, setCompleted] = React.useState(false);
@@ -41,22 +41,20 @@ export default function Relations({
   const [isOpen, setIsOpen] = React.useState(false);
 
   const handleNext = (e) => {
-    setAllFormData((x) => {
-      x.forEach((value, key) => {
-        if (key.indexOf("Relations") != -1) x.delete(key);
-      });
-
+    setParentRelationData((x) => {
+      x = [];
       relationsData.forEach((o) => {
-        x.delete(`Relations.${o.type}`);
-        x.append(`Relations.${o.type}.name`, o.name);
-        x.append(`Relations.${o.type}.birthDate`, o.birthDate);
-        x.append(`Relations.${o.type}.liveLocation`, o.liveLocation);
-        x.append(`Relations.${o.type}.work`, o.work);
-        x.append(`Relations.${o.type}.filePasport`, o.filePasport);
-      });
-      console.log(relationsData);
-      x.forEach((value, key) => {
-        console.log(key, " ", value);
+        x.push({ key: `Relations.${o.type}.Name`, value: o.name });
+        x.push({ key: `Relations.${o.type}.BirthDate`, value: o.birthDate });
+        x.push({
+          key: `Relations.${o.type}.LiveLocation`,
+          value: o.liveLocation,
+        });
+        x.push({ key: `Relations.${o.type}.Work`, value: o.work });
+        x.push({
+          key: `Relations.${o.type}.filePasport`,
+          value: o.filePasport,
+        });
       });
       return x;
     });
