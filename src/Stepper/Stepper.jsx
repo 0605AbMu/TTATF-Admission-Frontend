@@ -15,7 +15,7 @@ import IjtimoiyHolati from "./IjtimoiyHolati";
 import axios from "../staticData/axios";
 
 export default function VerticalLinearStepper({ stepIndex = -1 }) {
-  const [activeStep, setActiveStep] = React.useState(6);
+  const [activeStep, setActiveStep] = React.useState(-1);
   const [backDropToggle, setBackDropToggle] = React.useState(false);
   const [relationData, setRelationData] = React.useState([]);
   const [snackOpen, setSnackOpen] = React.useState(false);
