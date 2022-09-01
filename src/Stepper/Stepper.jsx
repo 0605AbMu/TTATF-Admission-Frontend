@@ -108,6 +108,7 @@ export default function VerticalLinearStepper({ stepIndex = -1 }) {
     <Box
       sx={{
         maxWidth: "95%",
+        width: "95%",
         p: 1,
         left: "50%",
         transform: "translateX(-50%)",
