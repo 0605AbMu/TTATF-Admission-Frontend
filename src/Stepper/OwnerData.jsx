@@ -6,7 +6,6 @@ import {
   Box,
   Button,
   FilledInput,
-
 } from "@mui/material";
 import React from "react";
 
@@ -17,9 +16,15 @@ import RadioGroup from "../Components/RadioGroup";
 
 // Import static Data
 import { nations } from "../staticData/nations";
+import { Country } from "../staticData/regions";
 import RegionsField from "../Components/RegionsField";
 
-export default function OwnerData({ index, activeStep, setActiveStep, id=undefined }) {
+export default function OwnerData({
+  index,
+  activeStep,
+  setActiveStep,
+  id = undefined,
+}) {
   const [isValid, setIsValid] = React.useState(true);
   const [completed, setCompleted] = React.useState(false);
   const handleClickofButton1 = (e) => {
@@ -88,7 +93,9 @@ export default function OwnerData({ index, activeStep, setActiveStep, id=undefin
           <SelectField
             name="citizenship"
             label="Fuqarolik*"
-            items={nations}
+            items={Country.map((x) => {
+              return x.countryName;
+            })}
             isValid={isValid}
             setIsValid={setIsValid}
           />
@@ -105,6 +112,7 @@ export default function OwnerData({ index, activeStep, setActiveStep, id=undefin
             label={"Passportingiz seriya va raqami*"}
             isValid={isValid}
             setIsValid={setIsValid}
+            
           />
           <SimpleTextField
             name={"jshir"}

@@ -63,7 +63,7 @@ export let Regions = [
   {
     id: "9",
     country_id: "1",
-    name_uz: "Surxandaryo viloyati",
+    name_uz: "Surxondaryo viloyati",
     name_oz: "Ńóđőŕíäŕđ¸ âčëî˙ňč",
     name_ru: "Ńóđőŕíäŕđüčíńęŕ˙ îáëŕńňü",
   },

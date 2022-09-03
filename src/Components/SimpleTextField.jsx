@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, TextField, InputLabel } from "@mui/material";
-
+import ReactInputMask from "react-input-mask";
 export default function SimpleTextField({
   type,
   name,
