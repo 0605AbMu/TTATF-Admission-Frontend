@@ -80,7 +80,7 @@ export default function VerticalLinearStepper({ stepIndex = -1 }) {
           type: "success",
         });
         setTimeout(() => {
-          window.location.replace(res.data);
+          window.location.replace("/thanks");
         }, 3000);
       })
       .catch((err) => {
@@ -141,7 +141,7 @@ export default function VerticalLinearStepper({ stepIndex = -1 }) {
           setActiveStep(0);
         }}
         hidden={true}
-        disabled={activeStep==-1?false:true}
+        disabled={activeStep == -1 ? false : true}
       >
         Ro'yxatdan o'tishni boshlash
       </Button>

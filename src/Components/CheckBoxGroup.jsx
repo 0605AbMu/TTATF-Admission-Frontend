@@ -22,6 +22,7 @@ export default function CheckBoxGroup({
   isValid,
   hasSelect = true,
   items = [],
+  multiple = false
 }) {
   const [disabled, setDisabled] = React.useState(true);
   const [value, setValue] = React.useState("");
@@ -52,9 +53,10 @@ export default function CheckBoxGroup({
       {hasSelect === true ? (
         <SelectField
           name={componentName}
-          value={value}
+          value={[...value]}
           items={items}
           disabled={disabled}
+          multiple = {multiple}
         />
       ) : (
         <></>

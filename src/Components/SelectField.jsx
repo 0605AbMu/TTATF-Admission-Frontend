@@ -18,12 +18,14 @@ export default function SelectField({
   willBeEmpty = false,
   onChange,
   id,
-  disabled = false
+  disabled = false,
+  multiple = false,
+  hidden = false,
 }) {
   return (
-    <Box sx={{ width: "300px", margin: 1,  }} 
-    // sx={{display: hidden?"none":"block"}}
-    
+    <Box
+      sx={{ width: "300px", margin: 1, display: hidden ? "none" : "block" }}
+      // sx={{}}
     >
       <InputLabel id="label"> {label}</InputLabel>
       <Select
@@ -31,9 +33,16 @@ export default function SelectField({
         sx={{ width: "100%" }}
         size={"small"}
         id={id}
-        defaultValue={items && items[0] ? items[0] : ""}
+        defaultValue={
+          items && items[0] && items.length != 0
+            ? multiple
+              ? []
+              : items[0]
+            : ""
+        }
         required
         labelId="label"
+        multiple={multiple}
         disabled={disabled}
         onChange={onChange}
       >

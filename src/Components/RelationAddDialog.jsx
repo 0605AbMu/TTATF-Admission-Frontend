@@ -11,6 +11,7 @@ import { Add, Edit, Cancel } from "@mui/icons-material";
 import SimpleTextField from "./SimpleTextField";
 import SelectField from "./SelectField";
 import { ButtonGroup } from "@mui/material";
+import SimpleTextFieldWithMask from "./SimpleTextFieldWithMask";
 
 export default function RelationAddDialog({
   defaultData = {},
@@ -22,7 +23,16 @@ export default function RelationAddDialog({
   editable = false,
   setEditable = () => {},
 }) {
-  const [relationsType, setRelationTypes] = React.useState(["Otasi", "Onasi"]);
+  const [relationsType, setRelationTypes] = React.useState([
+    "Otasi",
+    "Onasi",
+    "Akasi",
+    "Ukasi",
+    "Opasi",
+    "Singlisi",
+    "Turmush o'rtog'i",
+    "Farzandi",
+  ]);
   const [componentType, setComponentType] = React.useState("form");
   const handleAdd = React.useCallback((id = undefined) => {
     const form = document.getElementById("relationAddDialog");
@@ -32,9 +42,14 @@ export default function RelationAddDialog({
         x.push({
           id: id != undefined ? id : allData.length,
           type: relationFormData.get("relationType"),
-          name: relationFormData.get("relationName"),
+          name1: relationFormData.get("relationName1"),
+          name2: relationFormData.get("relationName2"),
+          name3: relationFormData.get("relationName3"),
           birthDate: relationFormData.get("relationBirthDate"),
-          work: relationFormData.get("relationWork"),
+          workLocation: relationFormData.get("relationWorkLocation"),
+          workPosition: relationFormData.get("relationWorkPosition"),
+          phone1: relationFormData.get("relationPhone1"),
+          phone2: relationFormData.get("relationPhone2"),
           liveLocation: relationFormData.get("relationLiveLocation"),
           filePasport: relationFormData.get("relationFilePasport"),
         });
@@ -95,9 +110,19 @@ export default function RelationAddDialog({
             name={"relationType"}
           />
           <SimpleTextField
-            label={"F.I.SH*"}
-            defaultValue={defaultData.name}
-            name="relationName"
+            label={"Familiya*"}
+            defaultValue={defaultData.name2}
+            name="relationName2"
+          />
+          <SimpleTextField
+            label={"Ism*"}
+            defaultValue={defaultData.name1}
+            name="relationName1"
+          />
+          <SimpleTextField
+            label={"Sharifi*"}
+            defaultValue={defaultData.name3}
+            name="relationName3"
           />
           <SimpleTextField
             label={"Tug'ilgan kuni*"}
@@ -106,14 +131,44 @@ export default function RelationAddDialog({
             name={"relationBirthDate"}
           />
           <SimpleTextField
-            label={"Ish joyi/lavozimi"}
-            defaultValue={defaultData.work}
-            name={"relationWork"}
+            label={"Ish joyi"}
+            defaultValue={defaultData.workLocation}
+            name={"relationWorkLocation"}
+          />
+          <SimpleTextField
+            label={"Ish lavozimi"}
+            defaultValue={defaultData.workPosition}
+            name={"relationWorkPosition"}
           />
           <SimpleTextField
             label={"Yashash manzili"}
             defaultValue={defaultData.liveLocation}
             name={"relationLiveLocation"}
+          />
+          <SimpleTextFieldWithMask
+            name={"relationPhone1"}
+            label={"Telefon raqami - 1*"}
+            mask={"+(\\9\\98)\\-99-999-99-99"}
+            type="text"
+            placeholder="*"
+            validationFunc={(value) => {
+              if (value.length !== 19) return false;
+              return true;
+            }}
+            defaultValue={defaultData.phone1}
+          />
+          <SimpleTextFieldWithMask
+            name={"relationPhone1"}
+            label={"Telefon raqami - 2*"}
+            mask={"+(\\9\\98)\\-99-999-99-99"}
+            type="text"
+            placeholder="*"
+            required={false}
+            validationFunc={(value) => {
+              if (value.length !== 19) return false;
+              return true;
+            }}
+            defaultValue={defaultData.phone2}
           />
           <SimpleTextField
             label={"Pasport kopiyasini yuklang*"}
@@ -129,10 +184,10 @@ export default function RelationAddDialog({
             variant="contained"
             onClick={editable ? handleEdit : handleAdd}
           >
-            {editable ? <Edit/> : <Add/>}
+            {editable ? <Edit /> : <Add />}
           </Button>
           <Button variant="contained" onClick={handleCancel} color="error">
-            <Cancel  />
+            <Cancel />
           </Button>
         </ButtonGroup>
       </DialogActions>

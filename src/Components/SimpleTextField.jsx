@@ -15,24 +15,27 @@ export default function SimpleTextField({
     } else return false;
   },
   id = undefined,
+  placeholder = "*",
+  hidden = false,
 }) {
   const [inputValue, setInputValue] = React.useState("");
   const [helperText, setHelperText] = React.useState("");
   const [isError, setIsError] = React.useState(false);
   return (
-    <Box sx={{ width: "300px", margin: 1 }}>
+    <Box sx={{ width: "300px", margin: 1, display: hidden ? "none" : "block" }}>
       <InputLabel>{label}</InputLabel>
       <TextField
         required={required}
         name={name}
         type={type}
         size={"small"}
-        placeholder="*"
+        placeholder={placeholder}
         fullWidth
         defaultValue={type == "file" && defaultValue ? undefined : defaultValue}
         id={id}
         error={isError}
         helperText={helperText}
+        InputProps={{ inputProps: { accept: type === "file"?".pdf, .jpg, .jpeg, .png":undefined } }}
         onInvalid={(e) => {
           e.target.setCustomValidity("Bu yerga xato ma'lumot kiritildi!");
         }}

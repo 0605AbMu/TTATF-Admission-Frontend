@@ -17,7 +17,12 @@ import RegionsField from "../Components/RegionsField";
 // Import static Data
 import { nations } from "../staticData/nations";
 
-export default function Step2({ index, activeStep, setActiveStep, id = undefined }) {
+export default function Step2({
+  index,
+  activeStep,
+  setActiveStep,
+  id = undefined,
+}) {
   const [isValid, setIsValid] = React.useState(true);
   const [completed, setCompleted] = React.useState(false);
   return (
@@ -39,38 +44,49 @@ export default function Step2({ index, activeStep, setActiveStep, id = undefined
             label="OTM nomi*"
             isValid={isValid}
             setIsValid={setIsValid}
+            defaultValue="Toshkent Tibbiyot Akademiyasi Termiz filiali"
           />
           <SelectField
             name={"edu.talimTuri"}
             label="Ta'lim turi*"
-            items={["Kunduzgi", "Kechgi"]}
+            items={["Bakalavr", "Magistratura", "Ordinatura", "Qo'shma ta'lim"]}
             isValid={isValid}
             setIsValid={setIsValid}
           />
           <SelectField
             name={"edu.talimShakli"}
             label="Ta'lim shakli*"
-            items={["Kunduzgi", "Kechgi"]}
+            items={["Kunduzgi", "Sirtqi"]}
             isValid={isValid}
             setIsValid={setIsValid}
           />
-          <SimpleTextField
-            name={"edu.shifr"}
-            label="Shifr*"
-            isValid={isValid}
-            setIsValid={setIsValid}
-          />
+
           <SelectField
             name={"edu.mutaxassislik"}
             label="Mutaxassislik*"
-            items={["Kunduzgi", "Kechgi"]}
+            id={"mutaxassislik"}
+            items={[
+              "55110100 - Davolash ishi",
+              "55110200 - Pediatriya ishi",
+              "55111100 - Xalq tabobati",
+            ]}
             isValid={isValid}
             setIsValid={setIsValid}
+            onChange={(e) => {
+              document.getElementById("shifr").value =
+                e.target.value.split(" - ")[0];
+            }}
+          />
+          <SimpleTextField
+            name="edu.shifr"
+            label={"Shifr*"}
+            id="shifr"
+            placeholder="shifr"
           />
           <SelectField
             name={"edu.talabaToifasi"}
             label="Talaba Toifasi*"
-            items={["Kunduzgi", "Kechgi"]}
+            items={["Oddiy", "Qo'shimcha kvota yoki imtiyoz", "Qo'shma dastur"]}
             isValid={isValid}
             setIsValid={setIsValid}
           />
@@ -81,7 +97,8 @@ export default function Step2({ index, activeStep, setActiveStep, id = undefined
               sx={{ margin: 1 }}
               onClick={(e) => {
                 if (e.currentTarget.form.checkValidity()) {
-                  setActiveStep(++activeStep);
+                  // setActiveStep(++activeStep);
+                  setActiveStep(3);
                   setCompleted(true);
                 } else {
                   e.currentTarget.form.reportValidity();

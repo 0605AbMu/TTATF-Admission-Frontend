@@ -14,13 +14,19 @@ import SimpleTextField from "../Components/SimpleTextField";
 import SelectField from "../Components/SelectField";
 import RadioGroup from "../Components/RadioGroup";
 import RegionsField from "../Components/RegionsField";
+import SimpleTextFieldWithMask from "../Components/SimpleTextFieldWithMask";
 // Import static Data
 import { nations } from "../staticData/nations";
 
-export default function Step2({ index, activeStep, setActiveStep, id=undefined }) {
+export default function Step2({
+  index,
+  activeStep,
+  setActiveStep,
+  id = undefined,
+}) {
   const [isValid, setIsValid] = React.useState(true);
   const [completed, setCompleted] = React.useState(false);
-
+  const [otherType, setOtherType] = React.useState(true);
   const handleClickofButton1 = (e) => {
     console.log(e.target.forms);
   };
@@ -49,12 +55,62 @@ export default function Step2({ index, activeStep, setActiveStep, id=undefined }
           <SelectField
             name={"LatestEduIns.kind"}
             label={"Ta'lim muassasa turi"}
-            items={["O'rta maktab", "Akademik litsey"]}
+            items={[
+              "O'rta maktab",
+              "Akademik litsey",
+              "Kasb-hunar maktab",
+              "Boshqa o'quv yurti",
+            ]}
+            onChange={(e) => {
+              if (e.target.value === "Boshqa o'quv yurti") {
+                setOtherType(false);
+              } else {
+                setOtherType(true);
+              }
+            }}
           />
-          <SimpleTextField name={"LatestEduIns.yearOfGraduation"} label="Tamomlagan sanasi*" type="date" />
-          <SimpleTextField name={"LatestEduIns.seriaAndNumberOfDiploma"} label = "Hujjat seriya va raqami*" />
-          <SimpleTextField name={"LatestEduIns.ballofAttestat"} label = "Attestat bali*" type={"number"} />
-          <SimpleTextField name={"LatestEduIns.fileOfAttestat"} label = "Attestat fayl shaklida yuklang*" type={"file"} />
+          <SimpleTextField
+            name={otherType === false ? "LatestEduIns.Optional" : undefined}
+            label="Boshqa tur"
+            hidden={otherType}
+            required={otherType == false ? true : false}
+          />
+          <SimpleTextFieldWithMask
+            name={"LatestEduIns.yearOfEnrollment"}
+            label="O'qishga kirgan yili*"
+            type="text"
+            mask="9999"
+            placeholder="2019"
+            validationFunc={(value) => {
+              if (value.length != 4) return false;
+              return true;
+            }}
+          />
+          <SimpleTextFieldWithMask
+            name={"LatestEduIns.yearOfGraduation"}
+            label="O'qishga tugatgan yili*"
+            type="text"
+            mask="9999"
+            placeholder={new Date().getFullYear().toString()}
+            validationFunc={(value) => {
+              if (value.length != 4) return false;
+              return true;
+            }}
+          />
+          <SimpleTextField
+            name={"LatestEduIns.seriaAndNumberOfDiploma"}
+            label="Hujjat seriya va raqami*"
+          />
+          <SimpleTextField
+            name={"LatestEduIns.ballofAttestat"}
+            label="O'rtacha attestat (diplom) bali*"
+            type={"number"}
+          />
+          <SimpleTextField
+            name={"LatestEduIns.fileOfAttestat"}
+            label="Attestat fayl shaklida yuklang*"
+            type={"file"}
+          />
 
           <Box sx={{ width: "100%" }}>
             <Button

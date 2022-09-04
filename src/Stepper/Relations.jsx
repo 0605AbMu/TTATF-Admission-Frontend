@@ -44,13 +44,24 @@ export default function Relations({
     setParentRelationData((x) => {
       x = [];
       relationsData.forEach((o) => {
-        x.push({ key: `Relations.${o.type}.Name`, value: o.name });
+        x.push({ key: `Relations.${o.type}.Name1`, value: o.name1 });
+        x.push({ key: `Relations.${o.type}.Name2`, value: o.name2 });
+        x.push({ key: `Relations.${o.type}.Name3`, value: o.name3 });
         x.push({ key: `Relations.${o.type}.BirthDate`, value: o.birthDate });
         x.push({
           key: `Relations.${o.type}.LiveLocation`,
           value: o.liveLocation,
         });
-        x.push({ key: `Relations.${o.type}.Work`, value: o.work });
+        x.push({
+          key: `Relations.${o.type}.Work.Location`,
+          value: o.workLocation,
+        });
+        x.push({
+          key: `Relations.${o.type}.Work.Position`,
+          value: o.workPosition,
+        });
+        x.push({ key: `Relations.${o.type}.Phone1`, value: o.phone1 });
+        x.push({ key: `Relations.${o.type}.Phone2`, value: o.phone2 });
         x.push({
           key: `Relations.${o.type}.filePasport`,
           value: o.filePasport,
@@ -109,7 +120,9 @@ export default function Relations({
             component={Paper}
             subheader={
               <ListSubheader sx={{ fontSize: "20px" }}>
-                Qarindoshlari
+                <Typography variant="body2" margin={0}>
+                  "Plus" tugmasi orqali ma'lumotlarni qo'shing
+                </Typography>
               </ListSubheader>
             }
           >

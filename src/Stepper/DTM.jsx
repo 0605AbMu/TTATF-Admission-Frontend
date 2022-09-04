@@ -16,12 +16,47 @@ import RadioGroup from "../Components/RadioGroup";
 import RegionsField from "../Components/RegionsField";
 // Import static Data
 import { nations } from "../staticData/nations";
+import dataForMaqsadli from "../staticData/MaqsadliQabulUchunTumanlar";
 
-export default function DTM({ index, activeStep, setActiveStep, id=undefined }) {
+export default function DTM({
+  index,
+  activeStep,
+  setActiveStep,
+  id = undefined,
+}) {
   const [isValid, setIsValid] = React.useState(true);
   const [completed, setCompleted] = React.useState(false);
   const [isHiddenMaqsadliTuman, setIsHiddenMaqsadliTuman] =
     React.useState(true);
+  const [MaqsadliTuman, setMaqsadliTuman] = React.useState([]);
+  const [MaqsadliViloyat, setMaqsadliViloyat] = React.useState([]);
+  const [MaqsadliActive, setMaqsadliActive] = React.useState(true);
+  const MaqsadliHandleChange = React.useCallback((e) => {
+    if (e.target.value === "Yo'q") {
+      setMaqsadliViloyat([]);
+      setMaqsadliTuman([]);
+      return;
+    }
+
+    const OTMData = new FormData(document.getElementById("OTM"));
+    const shifr = OTMData.get("edu.mutaxassislik").split(" - ")[0];
+    if (!shifr || dataForMaqsadli[shifr] === undefined) {
+      setMaqsadliViloyat([]);
+      setMaqsadliTuman([]);
+      return;
+    }
+    setMaqsadliViloyat((x) => {
+      return Object.keys(dataForMaqsadli[shifr]).map((x) => String(x));
+    });
+  });
+
+  React.useEffect(() => {
+    const OTMData = new FormData(document.getElementById("OTM"));
+    const shifr = OTMData.get("edu.mutaxassislik").split(" - ")[0];
+    if (shifr === "55111100") setMaqsadliActive(false);
+    else setMaqsadliActive(true);
+  });
+
   return (
     <Step index={index}>
       <StepLabel>
@@ -36,11 +71,7 @@ export default function DTM({ index, activeStep, setActiveStep, id=undefined }) 
           alignItems={"flex-start"}
           id={id}
         >
-          <SimpleTextField name="DTM.IdRaqam" label="Qaynoma ID raqami" />
-          <SimpleTextField
-            name="DTM.JVRRaqami"
-            label="Javoblar varaqasi raqami"
-          />
+          <SimpleTextField name="DTM.IdRaqam" label="Qaydnoma ID raqami" />
           <SelectField
             name="DTM.TalimTili"
             label={"Ta'lim Tili"}
@@ -92,36 +123,71 @@ export default function DTM({ index, activeStep, setActiveStep, id=undefined }) 
             type={"number"}
           />
           <SelectField
-            name="DTM.Maqsadli"
-            label={"Maqsadli qa'bul"}
+            name={MaqsadliViloyat.length !== 0 ? undefined : "DTM.Maqsadli"}
+            label={"Maqsadli qabul*"}
+            disabled={!MaqsadliActive}
             items={["Yo'q", "Ha"]}
-            defaultValue={""}
-            onChange={(e) => {
-              if (e.target.value === "Ha") {
-                setIsHiddenMaqsadliTuman(false);
-              } else setIsHiddenMaqsadliTuman(true);
-            }}
+            onChange={MaqsadliHandleChange}
           />
           <SelectField
-            name="DTM.MaqsadliTuman"
-            disabled={isHiddenMaqsadliTuman}
-            label={"Qayer uchun?"}
-            items={["G'uzor tumani", "Dehqonobod tumani"]}
-            defaultValue=""
+            name={
+              MaqsadliViloyat && MaqsadliViloyat.length === 0
+                ? undefined
+                : "DTM.Maqsadli.viloyat"
+            }
+            label={"Qaysi viloyat?*"}
+            items={MaqsadliViloyat}
+            onChange={(e) => {
+              const OTMData = new FormData(document.getElementById("OTM"));
+              const shifr = OTMData.get("edu.mutaxassislik").split(" - ")[0];
+              console.log(dataForMaqsadli[shifr][e.target.value]);
+              if (
+                !e.target.value ||
+                !shifr ||
+                !dataForMaqsadli[shifr][e.target.value]
+              ) {
+                console.log("NOne");
+                setMaqsadliTuman([]);
+                return;
+              }
+              setMaqsadliTuman(dataForMaqsadli[shifr][e.target.value]);
+            }}
+            hidden={MaqsadliViloyat.length === 0 ? true : false}
+          />
+          <SelectField
+            hidden={MaqsadliTuman.length === 0 ? true : false}
+            name={
+              MaqsadliTuman && MaqsadliTuman.length === 0
+                ? undefined
+                : "DTM.Maqsadli.tuman"
+            }
+            label={"Qaysi tuman?*"}
+            items={MaqsadliTuman}
           />
 
           <SelectField
             name="DTM.TulovShakli"
             label={"To'lov shakli"}
-            items={["Grant", "To'lov-kontrakt"]}
+            items={[
+              "Davlat granti",
+              "To'lov-shartnoma",
+              "Tabaqalashtirilgan to'lov-shartnoma",
+            ]}
             defaultValue=""
           />
           <SelectField
             name="DTM.QKDQ"
             label={"Qo'shimcha kvota doirasida qabul"}
             items={[
+              "Mavjud emas",
               "Harbiy xizmatchining farzandi",
-              "IIV tarkibiga kiruvchi xodimi farzandi",
+              "IIV tarkibiga kiruvchi organ xodimi farzandi",
+              "Bojxona organlari xodimining farzandi",
+              "Besh yil mehnat stajiga ega bo'lgan xotin-qizlar",
+              "Nogironligi bo'lgan shaxslar",
+              '"Mehribonlik uyi" va Bolalar shaharchasi bitiruvchilari bo\'lgan chin yetimlar',
+              "Harbiy qism qo'mondonligi tavsiyanomasiga ega abituriyentlar",
+              "Faol va iqtidorli xotin-qizlar",
             ]}
             defaultValue=""
           />

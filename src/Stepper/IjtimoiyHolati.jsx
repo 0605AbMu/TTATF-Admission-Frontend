@@ -62,6 +62,7 @@ export default function IjtimoiyHolati({ index, activeStep, setActiveStep, id = 
             name="Holati.ijtimoiy.nogironlik"
             label="Nogironligi mavjud"
             items={["1-guruh", "2-guruh", "3-guruh", "Zaif ko'ruvchi", "...."]}
+            multiple
           />
           <CheckBoxGroup
             hasSelect={true}

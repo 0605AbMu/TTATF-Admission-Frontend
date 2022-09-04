@@ -13,6 +13,7 @@ import React from "react";
 import SimpleTextField from "../Components/SimpleTextField";
 import SelectField from "../Components/SelectField";
 import RadioGroup from "../Components/RadioGroup";
+import SimpleTextFieldWithMask from "../Components/SimpleTextFieldWithMask";
 
 // Import static Data
 import { nations } from "../staticData/nations";
@@ -51,14 +52,14 @@ export default function OwnerData({
           id={id}
         >
           <SimpleTextField
-            name={"name1"}
-            label="Ism*"
+            name={"name2"}
+            label="Familiya*"
             isValid={isValid}
             setIsValid={setIsValid}
           />
           <SimpleTextField
-            name={"name2"}
-            label="Familiya*"
+            name={"name1"}
+            label="Ism*"
             isValid={isValid}
             setIsValid={setIsValid}
           />
@@ -69,7 +70,7 @@ export default function OwnerData({
             setIsValid={setIsValid}
           />
           <RegionsField
-            CountryLabel={"Tug'ulgan Davlatingiz*"}
+            CountryLabel={"Tug'ilgan Davlatingiz*"}
             CountryName="birthLocation.Country"
             RegionLabel={"Viloyat*"}
             RegionName={"birthLocation.Region"}
@@ -79,7 +80,7 @@ export default function OwnerData({
           <SimpleTextField
             type="date"
             name="birthDate"
-            label={"Tug'ulgan sanasi"}
+            label={"Tug'ilgan sanasi"}
             isValid={isValid}
             setIsValid={setIsValid}
           />
@@ -107,23 +108,41 @@ export default function OwnerData({
             setIsValid={setIsValid}
           />
 
-          <SimpleTextField
+          <SimpleTextFieldWithMask
             name="pasport"
             label={"Passportingiz seriya va raqami*"}
             isValid={isValid}
+            mask="LL9999999"
+            //maska qo'yayotganda Maskning propertiylarini tekshirib olgan ma'qul
+            validationFunc={(value) => {
+              console.log(value);
+              if (!value) return false;
+              if (value.length != 9) return false;
+              if (value.slice(0, 2).toUpperCase() != value.slice(0, 2))
+                return false;
+              return true;
+            }}
+            placeholder={"AA9999999"}
             setIsValid={setIsValid}
-            
+            alwaysUpper
           />
-          <SimpleTextField
+          <SimpleTextFieldWithMask
             name={"jshir"}
             label="JSHSHIR-kod*"
-            type="number"
+            // type="number"
+            mask="99999999999999"
+            placeholder="99999999999999"
             validationFunc={jshirValidation}
           />
           <SimpleTextField
             name={"whenIssuedBy"}
             label="Pasport berilgan sana*"
             type="date"
+          />
+          <SimpleTextField
+            name={"whoIssuedBy"}
+            label="Pasport kim tomonidan berilgan?*"
+            type="text"
           />
           <SimpleTextField
             type="file"
@@ -147,18 +166,43 @@ export default function OwnerData({
             DistrictLabel={"Tuman*"}
             DistrictName="DYM.District"
           />
-          <SimpleTextField name={"DYM.manzil"} label="Manzilni kiriting*" />
-
           <SimpleTextField
-            name={"phone"}
+            name={"DYM.manzil"}
+            label="Manzilni kiriting*"
+            placeholder="Mahalla, ko'cha, uy raqami"
+          />
+
+          <SimpleTextFieldWithMask
+            name={"phone1"}
             label="Telefon raqamingiz*"
             type={"tel"}
+            mask="+(\9\98)-99-999-99-99"
+            validationFunc={(value) => {
+              if (value.length != 19) return false;
+              return true;
+            }}
+          />
+          <SimpleTextFieldWithMask
+            name={"phone2"}
+            label="Telefon raqamingiz*"
+            type={"phone"}
+            mask="+(\9\98)-99-999-99-99"
+            validationFunc={(value) => {
+              if (value.length != 19) return false;
+              return true;
+            }}
           />
           <SimpleTextField
             name={"email"}
             label="E - mail"
             type={"email"}
             required={false}
+          />
+          <SelectField
+            name = "KnownLanguages"
+            items={["Ingliz", "Rus"]}
+            label={"Biladigan tillaringizni tanlang*"}
+            multiple={true}
           />
 
           <Box sx={{ width: "100%" }}>
