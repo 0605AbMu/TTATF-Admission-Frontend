@@ -21,6 +21,7 @@ export default function SelectField({
   disabled = false,
   multiple = false,
   hidden = false,
+  required = true
 }) {
   return (
     <Box
@@ -40,7 +41,7 @@ export default function SelectField({
               : items[0]
             : ""
         }
-        required
+        required = {required}
         labelId="label"
         multiple={multiple}
         disabled={disabled}

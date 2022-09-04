@@ -191,6 +191,7 @@ export default function OwnerData({
               if (value.length != 19) return false;
               return true;
             }}
+            required={false}
           />
           <SimpleTextField
             name={"email"}
@@ -199,10 +200,11 @@ export default function OwnerData({
             required={false}
           />
           <SelectField
-            name = "KnownLanguages"
+            name="KnownLanguages"
             items={["Ingliz", "Rus"]}
             label={"Biladigan tillaringizni tanlang*"}
             multiple={true}
+            required={false}
           />
 
           <Box sx={{ width: "100%" }}>
